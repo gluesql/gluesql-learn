@@ -50,8 +50,17 @@ function initControlBar() {
   controlBar.addEventListener('run', async () => {
     if (!sql) return;
 
-    const result = await state.db.query(sql);
     console.log('[run]', sql);
+
+    let result;
+    try {
+      result = await state.db.query(sql);
+    } catch (message) {
+      result = [{
+        type: 'ERROR',
+        message,
+      }];
+    }
 
     document
       .querySelector('glue-query-result')

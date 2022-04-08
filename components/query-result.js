@@ -37,14 +37,26 @@ class GlueQueryResult extends HTMLElement {
       case 'SELECT': 
         return `
           <section>
-            <code>[success] SELECT</code>
+            <code>
+              <span class="success">[SUCCESS]</span> SELECT
+            </code>
             <glue-table-viewer data-rows='${JSON.stringify(result.rows)}'></glue-table-viewer>
+          </section>
+        `;
+      case 'ERROR':
+        return `
+          <section>
+            <code>
+              <span class="error">[ERROR]</span> ${result.message}
+            </code>
           </section>
         `;
       default:
         return `
           <section>
-            <code>[success] ${result.type}</code>
+            <code>
+              <span class="success">[SUCCESS]</span> ${result.type}
+              </code>
           </section>
         `;
     }
@@ -67,6 +79,14 @@ class GlueQueryResult extends HTMLElement {
 
       code {
         font-family: 'Roboto Mono', monospace;
+      }
+
+      code span.error {
+        color: #E3242B;
+      }
+
+      code span.success {
+        color: #1338BE;
       }
 
       glue-table-viewer {
