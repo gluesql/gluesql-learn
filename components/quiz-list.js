@@ -26,6 +26,8 @@ class GlueQuizList extends HTMLElement {
         display: inline-block;
 
         background-color: red;
+
+        font-family: 'Roboto Mono', monospace;
       }
     `;
   }
