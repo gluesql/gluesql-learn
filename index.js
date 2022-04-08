@@ -4,6 +4,7 @@ import './components/code-editor.js';
 import './components/table-viewer.js';
 import './components/query-result.js';
 import './components/control-bar.js';
+import './components/solution-modal.js';
 
 import SEED_SQL from './seed.js';
 import QUIZ_SAMPLE from './quiz/sample.js';
@@ -56,7 +57,11 @@ function testEvents() {
   const controlBar = document.querySelector('glue-control-bar');
   controlBar.addEventListener('prev', () => console.log('prev clicked'));
   controlBar.addEventListener('next', () => console.log('next clicked'));
-  controlBar.addEventListener('solution', () => console.log('solution clicked'));
+  controlBar.addEventListener('solution', () => {
+    document
+      .querySelector('glue-solution-modal')
+      .setAttribute('data-sql', 'SELECT 1;');
+  });
   controlBar.addEventListener('run', () => console.log('run clicked'));
   controlBar.addEventListener('submit', () => console.log('submit clicked'));
 }
