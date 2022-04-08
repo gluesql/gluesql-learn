@@ -91,6 +91,10 @@ class GlueControlBar extends HTMLElement {
       button:active {
         opacity: 0.6;
       }
+
+      button.prev, button.next {
+        visibility: hidden;
+      }
     `;
   }
 }
