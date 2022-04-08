@@ -6,12 +6,14 @@ import './components/control-bar.js';
 
 import SEED_SQL from './seed.js';
 import QUIZ_SAMPLE from './quiz/sample.js';
+import QUIZ_SAMPLE2 from './quiz/sample2.js'
 
 import { gluesql } from 'https://www.gluesql.org/bin/js/gluesql.js';
 
 const sqls = [
   SEED_SQL,
   QUIZ_SAMPLE,
+  QUIZ_SAMPLE2,
 ];
 
 async function run() {
@@ -38,7 +40,6 @@ async function run() {
 
   // initialize
   await db.query(sqls.join(''));
-
   window.testdb = db;
 }
 
