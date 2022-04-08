@@ -43,3 +43,15 @@ async function run() {
 }
 
 run();
+
+
+function testEvents() {
+  const controlBar = document.querySelector('glue-control-bar');
+  controlBar.addEventListener('prev', () => console.log('prev clicked'));
+  controlBar.addEventListener('next', () => console.log('next clicked'));
+  controlBar.addEventListener('solution', () => console.log('solution clicked'));
+  controlBar.addEventListener('run', () => console.log('run clicked'));
+  controlBar.addEventListener('submit', () => console.log('submit clicked'));
+}
+
+testEvents();
