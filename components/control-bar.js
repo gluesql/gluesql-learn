@@ -8,10 +8,11 @@ class GlueControlBar extends HTMLElement {
 
     const style = document.createElement('style');
     style.textContent = this.getStyle();
-    const h1 = document.createElement('h1');
-    h1.textContent = 'GlueControlBar';
 
-    this.shadowRoot.append(style, h1);
+    const controls = document.createElement('div');
+    controls.innerHTML = this.render();
+
+    this.shadowRoot.append(style, controls);
   }
 
   connectedCallback() {
@@ -20,17 +21,60 @@ class GlueControlBar extends HTMLElement {
   attributeChangedCallback() {
   }
 
+  render() {
+    return `
+      <button>Prev</button>
+      <button>Next</button>
+
+      <span></span>
+
+      <button>Solution</button>
+      <button>Run</button>
+      <button>Submit</button>
+    `;
+  }
+
   getStyle() {
     return `
       :host {
         display: inline-block;
 
-        background-color: #caa14a;
+        border-top: 1px solid #ddd;
+        background-color: white;
+        padding: 0 15px;
       }
 
-      h1 {
-        margin: 0;
-        padding: 0;
+      div {
+        width: 100%;
+        height: 100%;
+
+        display: grid;
+        grid-template-columns:
+          80px 80px 1fr 100px 100px 100px;
+        align-content: center;
+
+        gap: 10px;
+      }
+
+      button {
+        height: 40px;
+        border: none;
+
+        box-shadow: none;
+        background-color: #657;
+        border-radius: 8px;
+        box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.2);
+        color: #eaeaea;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      button:hover {
+        opacity: 0.8;
+      }
+
+      button:active {
+        opacity: 0.6;
       }
     `;
   }
