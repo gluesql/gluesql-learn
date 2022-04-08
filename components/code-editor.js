@@ -3,7 +3,7 @@ import 'https://pagecdn.io/lib/ace/1.4.14/ace.min.js'
 const CDN_URL = `https://pagecdn.io/lib/ace/1.4.14/`
 
 class GlueCodeEditor extends HTMLElement {
-  static get observedAttributes() { return [] }
+  static get observedAttributes() { return ['readonly'] }
 
   constructor() {
     super();
@@ -44,6 +44,9 @@ class GlueCodeEditor extends HTMLElement {
   }
 
   attributeChangedCallback() {
+    if(this.hasAttribute('readonly')) {
+      this.sqlEditor.setReadOnly(true)
+    }
   }
 
   getStyle() {

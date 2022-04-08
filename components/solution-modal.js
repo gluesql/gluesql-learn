@@ -33,7 +33,7 @@ class GlueSolutionModal extends HTMLElement {
     main.removeAttribute('class');
     main.innerHTML = `
       <div class="modal">
-        <glue-code-editor></glue-code-editor>
+        <glue-code-editor readonly></glue-code-editor>
         <button>close</button>
       </div>
     `;
