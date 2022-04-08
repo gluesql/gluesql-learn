@@ -89,16 +89,20 @@ async function initControlBar() {
     `);
     quiz = quiz[0].rows[0];
 
-    const submitted = await state.db.query(sql);
-    const expected = await state.db.query(quiz.solutionSQL);
+    try {
+      const submitted = await state.db.query(sql);
+      const expected = await state.db.query(quiz.solutionSQL);
 
-    console.log('submitted', submitted);
-    console.log('expected', expected);
+      console.log('submitted', submitted);
+      console.log('expected', expected);
 
-    if (JSON.stringify(submitted) !== JSON.stringify(expected)) {
-      window.alert('Wrong answer');
-    } else {
-      window.alert('Correct answer');
+      if (JSON.stringify(submitted) !== JSON.stringify(expected)) {
+        window.alert('Wrong answer');
+      } else {
+        window.alert('Correct answer');
+      }
+    } catch (error) {
+      window.alert(`[ERROR] ${error}`);
     }
   });
 }
