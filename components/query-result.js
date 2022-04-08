@@ -1,5 +1,5 @@
 class GlueQueryResult extends HTMLElement {
-  static get observedAttributes() { return [] }
+  static get observedAttributes() { return ['data-query-result'] }
 
   constructor() {
     super();
@@ -9,10 +9,7 @@ class GlueQueryResult extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = this.getStyle();
 
-    const resultList = JSON.parse('[{"rows":[{"id":1,"name":"hello"},{"id":2,"name":"world"}],"type":"SELECT"},{"type":"CREATE TABLE"}]');
-
     const div = document.createElement('div');
-    div.innerHTML = this.render(resultList);
 
     this.shadowRoot.append(style, div);
   }
@@ -21,6 +18,12 @@ class GlueQueryResult extends HTMLElement {
   }
 
   attributeChangedCallback() {
+    if(this.hasAttribute('data-query-result')) {
+      const resultList = JSON.parse(this.getAttribute('data-query-result'));
+
+      const div = this.shadowRoot.querySelector('div');
+      div.innerHTML = this.render(resultList);
+    }
   }
 
   render(resultList) {
@@ -31,11 +34,11 @@ class GlueQueryResult extends HTMLElement {
 
   renderResult(result) {
     switch (result.type) {
-      case 'SELECT':
+      case 'SELECT': 
         return `
           <section>
             <code>[success] SELECT</code>
-            <glue-table-viewer data-rows="${JSON.stringify(result.rows)}"></glue-table-viewer>
+            <glue-table-viewer data-rows='${JSON.stringify(result.rows)}'></glue-table-viewer>
           </section>
         `;
       default:
