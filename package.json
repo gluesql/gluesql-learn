@@ -1,0 +1,23 @@
+{
+  "name": "gluesql-quiz",
+  "version": "0.1.0",
+  "description": "GlueSQL Quiz",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gluesql/gluesql-quiz.git"
+  },
+  "keywords": [
+    "GlueSQL",
+    "gluesql.js"
+  ],
+  "author": "Taehoon Moon, Jiseok CHOI",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/gluesql/gluesql-quiz/issues"
+  },
+  "homepage": "https://github.com/gluesql/gluesql-quiz#readme"
+}
