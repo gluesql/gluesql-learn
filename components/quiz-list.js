@@ -1,5 +1,5 @@
 class GlueQuizList extends HTMLElement {
-  static get observedAttributes() { return [] }
+  static get observedAttributes() { return ['data-quiz-list'] }
 
   constructor() {
     super();
@@ -14,30 +14,26 @@ class GlueQuizList extends HTMLElement {
     this.shadowRoot.append(style, aside);
   }
 
-  connectedCallback() {
-  }
+  connectedCallback() {}
 
   attributeChangedCallback() {
+    this.shadowRoot.querySelector('aside').innerHTML = this.update();
   }
 
   update() {
-    const basics = [
-      'Hello world',
-      'Data types',
-      'SELECT 1',
-      'SELECT 2',
-    ];
+    this.quizList = this.hasAttribute('data-quiz-list')
+      ? JSON.parse(this.getAttribute('data-quiz-list'))
+      : [];
 
-    const advanced = [
-      'More stuffs',
-      'Something more',
-      'Harder',
-      'Quite Harder',
-    ];
+    const quizGroupByCategory = {}
+    this.quizList
+      .forEach(({name, category}) => {
+        quizGroupByCategory[category] ?
+          quizGroupByCategory[category].push(name) : quizGroupByCategory[category] = [name]
+      })
 
     return `
-      ${this.renderSection('Basics', basics)}
-      ${this.renderSection('Advanced', advanced)}
+      ${Object.entries(quizGroupByCategory).map(([category, quizList]) => this.renderSection(category, quizList))}
     `;
   }
 

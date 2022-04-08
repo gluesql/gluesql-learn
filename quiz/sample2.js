@@ -1,4 +1,4 @@
-const name = 'Sample quiz';
+const name = 'Sample quiz 2';
 const category = 'SAMPLE';
 const schemaSQL = `
   CREATE TABLE Item (

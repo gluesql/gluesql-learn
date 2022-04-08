@@ -1,5 +1,11 @@
 const categories = [
-  'Sample category',
+  'SAMPLE',
+  'SELECT',
+  'MATH',
+  'GROUP BY',
+  'IS NULL',
+  'String, Date',
+  'Function'
 ];
 
 const seed = `
