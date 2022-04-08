@@ -24,6 +24,7 @@ const state = {
 }
 
 let db;
+let sql;
 
 async function init() {
   db = await gluesql();
@@ -45,7 +46,18 @@ function initControlBar() {
       .querySelector('glue-solution-modal')
       .setAttribute('data-sql', 'SELECT 1;');
   });
-  controlBar.addEventListener('run', () => console.log('run clicked'));
+
+  controlBar.addEventListener('run', async () => {
+    if (!sql) return;
+
+    const result = await db.query(sql);
+    console.log('[run]', sql);
+
+    document
+      .querySelector('glue-query-result')
+      .setAttribute('data-query-result', JSON.stringify(result));
+  });
+
   controlBar.addEventListener('submit', () => console.log('submit clicked'));
 }
 
@@ -67,8 +79,11 @@ async function initQuizList() {
 }
 
 function initCodeEditor() {
-  const codeEditor = document.querySelector('glue-code-editor.main');
-  codeEditor.addEventListener('change', (event) => console.log(event));
+  document
+    .querySelector('glue-code-editor.main')
+    .addEventListener('change', (event) => {
+      sql = event.detail;
+    });
 }
 
 async function queryResult() {
