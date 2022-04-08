@@ -66,5 +66,11 @@ function testQuizListEvents() {
   quizList.addEventListener('select', (event) => console.log(event));
 }
 
+function testCodeEditorEvents() {
+  const codeEditor = document.querySelector('glue-code-editor');
+  codeEditor.addEventListener('change', (event) => console.log(event));
+}
+
 testEvents();
 testQuizListEvents()
+testCodeEditorEvents()
