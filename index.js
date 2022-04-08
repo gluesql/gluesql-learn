@@ -58,7 +58,36 @@ function initControlBar() {
       .setAttribute('data-query-result', JSON.stringify(result));
   });
 
-  controlBar.addEventListener('submit', () => console.log('submit clicked'));
+  controlBar.addEventListener('submit', async () => {
+    if (!sql) {
+      window.alert('Input SQL is empty');
+
+      return;
+    }
+
+    let quiz = await db.query(`
+      SELECT
+        solution_sql as solutionSQL
+      FROM
+        Quiz
+      WHERE
+        category = "${state.category}" AND
+        name = "${state.quiz}";
+    `);
+    quiz = quiz[0].rows[0];
+
+    const submitted = await state.db.query(sql);
+    const expected = await state.db.query(quiz.solutionSQL);
+
+    console.log('submitted', submitted);
+    console.log('expected', expected);
+
+    if (JSON.stringify(submitted) !== JSON.stringify(expected)) {
+      window.alert('Wrong answer');
+    } else {
+      window.alert('Correct answer');
+    }
+  });
 }
 
 async function initQuizList() {
