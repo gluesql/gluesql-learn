@@ -41,6 +41,12 @@ async function run() {
   // initialize
   await db.query(sqls.join(''));
   window.testdb = db;
+
+  const dataQuizList = await db.query('SELECT q.name, q.category FROM Quiz AS q INNER JOIN Category AS c ON q.category = c.name')
+    .then(res => res[0].rows)
+    .then(JSON.stringify)
+  const quizList = document.querySelector('glue-quiz-list');
+  quizList.setAttribute('data-quiz-list', dataQuizList);
 }
 
 run();
