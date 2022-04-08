@@ -1,5 +1,5 @@
 class GlueQuizContent extends HTMLElement {
-  static get observedAttributes() { return [] }
+  static get observedAttributes() { return ['data-content'] }
 
   constructor() {
     super();
@@ -9,42 +9,57 @@ class GlueQuizContent extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = this.getStyle();
     const section = document.createElement('section');
-    section.innerHTML = this.render();
 
     this.shadowRoot.append(style, section);
   }
 
   connectedCallback() {
+    this.update();
   }
 
   attributeChangedCallback() {
+    this.update();
   }
 
-  render() {
-    return `
+  update() {
+    const section = this.shadowRoot.querySelector('section');
+
+    if (!this.hasAttribute('data-content')) {
+      section.innerHTML = '';
+
+      return;
+    };
+
+    const {
+      category,
+      name,
+      schemaSQL,
+      dataList,
+    } = JSON.parse(this.getAttribute('data-content'));
+
+    console.log(dataList);
+
+    section.innerHTML = `
       <p class="breadcrumb">
-        <span class="category">Sample category</span>
+        <span class="category">${category}</span>
         <span class="divider">/</span>
-        <span class="title">Sample quiz</span>
+        <span class="title">${name}</span>
       </p>
-      <h1>Sample quiz</h1>
+      <h1>${name}</h1>
 
       <h3>Schema</h3>
-      <pre>
-CREATE TABLE Foo (id INTEGER);
-
-CREATE TABLE Bar (
-  id INTEGER,
-  foo_id INTEGER
-);
-      </pre>
+      <pre>${schemaSQL}</pre>
 
       <h3>Data</h3>
-      <p>Foo</p>
-      <glue-table-viewer></glue-table-viewer>
+      ${dataList.map(data => this.renderData(data)).join('')}
+    `;
+  }
 
-      <p>Bar</p>
-      <glue-table-viewer></glue-table-viewer>
+  renderData({ name, rows }) {
+    return `
+      <p>${name}</p>
+      <glue-table-viewer data-rows='${JSON.stringify(rows)}'>
+      </glue-table-viewer>
     `;
   }
 
@@ -93,7 +108,7 @@ CREATE TABLE Bar (
       pre {
         font-family: 'Roboto Mono';
 
-        padding: 15px 10px 0 15px;
+        padding: 15px 10px;
         background-color: #353535;
         border-radius: 6px;
         color: white;

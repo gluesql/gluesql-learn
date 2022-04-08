@@ -29,7 +29,7 @@ let sql;
 async function init() {
   db = await gluesql();
   await db.query(sqls.join(''));
-  window.db = db;
+  window.globaldb = db;
 
   initControlBar();
   initQuizList();
@@ -50,7 +50,7 @@ function initControlBar() {
   controlBar.addEventListener('run', async () => {
     if (!sql) return;
 
-    const result = await db.query(sql);
+    const result = await state.db.query(sql);
     console.log('[run]', sql);
 
     document
@@ -66,15 +66,12 @@ async function initQuizList() {
     .then(res => res[0].rows)
 
   const firstQuiz = dataQuizList[0]
-  state.quiz = firstQuiz.name
-  state.category = firstQuiz.category
+  selectQuiz(firstQuiz);
 
   const quizList = document.querySelector('glue-quiz-list');
   quizList.setAttribute('data-quiz-list', JSON.stringify(dataQuizList));
   quizList.addEventListener('select', (event) => {
-    const { quiz, category } = event.detail
-    state.quiz = quiz
-    state.category = category
+    selectQuiz(event.detail);
   });
 }
 
@@ -94,36 +91,48 @@ async function queryResult() {
   tableViewer.setAttribute('data-query-result', dataRows)
 }
 
-init();
+async function selectQuiz({ name, category }) {
+  state.quiz = name;
+  state.category = category;
+  state.db = await gluesql();
 
-/*
-async function run() {
-  const db = await gluesql();
-  const result = await db.query(`
-    CREATE TABLE Foo (id INTEGER, name TEXT);
-    INSERT INTO Foo VALUES (1, "hello"), (2, "world");
-    SELECT * FROM Foo;
+  let quiz = await db.query(`
+    SELECT
+      category,
+      name,
+      schema_sql as schemaSQL,
+      data_sql as dataSQL
+    FROM
+      Quiz
+    WHERE
+      category = "${state.category}" AND
+      name = "${state.quiz}";
   `);
+  quiz = quiz[0].rows[0];
 
-  for (const item of result) {
-    const node = document.createElement('code');
+  await state.db.query(quiz.schemaSQL);
+  await state.db.query(quiz.dataSQL);
 
-    node.innerHTML = `
-      type: ${item.type}
-      <br>
-      ${item.affected ? `affected: ${item.affected}` : ''}
-      ${item.rows ? `rows: ${JSON.stringify(item.rows)}` : ''}
-    `;
+  const { tables } = (await state.db.query('SHOW TABLES'))[0];
+  const dataList = await Promise.all(tables.map(async (tableName) => {
+    const { rows } = (await state.db.query(`SELECT * FROM ${tableName}`))[0];
 
-    console.log(item);
-    document.querySelector('#box').append(node);
-  }
+    return {
+      name: tableName,
+      rows,
+    };
+  }));
 
-  // initialize
-  await db.query(sqls.join(''));
-  window.testdb = db;
+  const content = {
+    category: quiz.category,
+    name: quiz.name,
+    schemaSQL: quiz.schemaSQL,
+    dataList,
+  };
 
+  document
+    .querySelector('glue-quiz-content')
+    .setAttribute('data-content', JSON.stringify(content));
 }
 
-run();
-*/
+init();
