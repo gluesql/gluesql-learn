@@ -52,7 +52,6 @@ async function run() {
 
 run();
 
-
 function testEvents() {
   const controlBar = document.querySelector('glue-control-bar');
   controlBar.addEventListener('prev', () => console.log('prev clicked'));
@@ -62,4 +61,10 @@ function testEvents() {
   controlBar.addEventListener('submit', () => console.log('submit clicked'));
 }
 
+function testQuizListEvents() {
+  const quizList = document.querySelector('glue-quiz-list');
+  quizList.addEventListener('select', (event) => console.log(event));
+}
+
 testEvents();
+testQuizListEvents()
