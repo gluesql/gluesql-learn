@@ -1,2 +1,2 @@
-# gluesql-quiz
-WIP. GlueSQL Quiz
+# gluesql-learn
+WIP. Learn GlueSQL :)
