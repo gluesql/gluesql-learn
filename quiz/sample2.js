@@ -1,16 +1,16 @@
 const name = 'Sample quiz 2';
 const category = 'SAMPLE';
 const schemaSQL = `
-  CREATE TABLE Item (
+  CREATE TABLE Item2 (
     id INTEGER,
     name TEXT
   );
 `;
 const dataSQL = `
-  INSERT INTO Item VALUES (1, "Foo"), (2, "Bar"), (3, "Coz");
+  INSERT INTO Item2 VALUES (1, "Foo"), (2, "Bar"), (3, "Coz");
 `;
 const solutionSQL = `
-  SELECT id, name FROM Item;
+  SELECT id, name FROM Item2;
 `;
 
 const quiz = `

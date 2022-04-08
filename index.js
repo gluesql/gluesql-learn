@@ -31,20 +31,24 @@ async function init() {
   await db.query(sqls.join(''));
   window.globaldb = db;
 
+  await initQuizList();
   initControlBar();
-  initQuizList();
   initCodeEditor();
   queryResult()
 }
 
-function initControlBar() {
+async function initControlBar() {
+  
   const controlBar = document.querySelector('glue-control-bar');
   controlBar.addEventListener('prev', () => console.log('prev clicked'));
   controlBar.addEventListener('next', () => console.log('next clicked'));
-  controlBar.addEventListener('solution', () => {
+  controlBar.addEventListener('solution', async () => {
+    let quiz = await db.query(`SELECT * FROM Quiz WHERE category = "${state.category}" AND name = "${state.quiz}"`)
+    quiz = quiz[0].rows[0]
+  
     document
       .querySelector('glue-solution-modal')
-      .setAttribute('data-sql', 'SELECT 1;');
+      .setAttribute('data-sql', quiz.solution_sql);
   });
 
   controlBar.addEventListener('run', async () => {
@@ -114,16 +118,21 @@ async function initQuizList() {
   quizList.setAttribute('selected-quiz', JSON.stringify(state));
 
   quizList.addEventListener('select', (event) => {
-    selectQuiz(event.detail);
+    selectQuiz({
+      quiz: event.detail.quiz,
+      category: event.detail.category,
+    });
   });
 }
 
-function initCodeEditor() {
-  document
+function initCodeEditor(sqlQuery = "SELECT * FROM Item") {
+  const codeEditor = document
     .querySelector('glue-code-editor.main')
-    .addEventListener('change', (event) => {
-      sql = event.detail;
-    });
+
+  codeEditor.setAttribute('sql', sqlQuery)
+  codeEditor.addEventListener('change', (event) => {
+    sql = event.detail;
+  });
 }
 
 async function queryResult() {
