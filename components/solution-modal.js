@@ -1,15 +1,17 @@
 class GlueSolutionModal extends HTMLElement {
-  static get observedAttributes() { return ['data-sql'] }
+  static get observedAttributes() {
+    return ["data-sql"];
+  }
 
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = this.getStyle();
 
-    const main = document.createElement('main');
+    const main = document.createElement("main");
 
     this.shadowRoot.append(style, main);
   }
@@ -23,16 +25,16 @@ class GlueSolutionModal extends HTMLElement {
   }
 
   update() {
-    const main = this.shadowRoot.querySelector('main');
+    const main = this.shadowRoot.querySelector("main");
 
-    if (!this.hasAttribute('data-sql')) {
-      main.setAttribute('class', 'hidden');
+    if (!this.hasAttribute("data-sql")) {
+      main.setAttribute("class", "hidden");
       return;
     }
 
-    const sql = this.getAttribute('data-sql')
+    const sql = this.getAttribute("data-sql");
 
-    main.removeAttribute('class');
+    main.removeAttribute("class");
     main.innerHTML = `
       <div class="modal">
         <glue-code-editor readonly sql="${sql}"></glue-code-editor>
@@ -41,12 +43,12 @@ class GlueSolutionModal extends HTMLElement {
     `;
 
     main
-      .querySelector('button')
-      .addEventListener('click', this.close.bind(this));
+      .querySelector("button")
+      .addEventListener("click", this.close.bind(this));
   }
 
   close() {
-    this.removeAttribute('data-sql');
+    this.removeAttribute("data-sql");
     this.update();
   }
 
@@ -115,4 +117,4 @@ class GlueSolutionModal extends HTMLElement {
   }
 }
 
-customElements.define('glue-solution-modal', GlueSolutionModal);
+customElements.define("glue-solution-modal", GlueSolutionModal);

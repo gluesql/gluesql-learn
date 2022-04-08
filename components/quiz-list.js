@@ -1,83 +1,93 @@
 class GlueQuizList extends HTMLElement {
-  static get observedAttributes() { return ['data-quiz-list', 'selected-quiz'] }
+  static get observedAttributes() {
+    return ["data-quiz-list", "selected-quiz"];
+  }
 
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = this.getStyle();
 
-    const aside = document.createElement('aside');
+    const aside = document.createElement("aside");
     aside.innerHTML = this.update();
 
     this.shadowRoot.append(style, aside);
   }
 
   connectedCallback() {
-    this.updateAside()
+    this.updateAside();
   }
 
   attributeChangedCallback() {
-    this.updateAside()
+    this.updateAside();
   }
 
   updateAside() {
-    const aside = this.shadowRoot.querySelector('aside')
-    aside.innerHTML = this.update()
+    const aside = this.shadowRoot.querySelector("aside");
+    aside.innerHTML = this.update();
 
     aside
-      .querySelectorAll('button')
-      .forEach(button => button.addEventListener('click', this.dispatch.bind(this)));
+      .querySelectorAll("button")
+      .forEach((button) =>
+        button.addEventListener("click", this.dispatch.bind(this))
+      );
   }
 
   dispatch(event) {
-    const selectedCategory = event.target.getAttribute('data-category') ?? ''
-    const selectedQuiz = event.target.textContent
+    const selectedCategory = event.target.getAttribute("data-category") ?? "";
+    const selectedQuiz = event.target.textContent;
 
-    this.dispatchEvent(new CustomEvent('select', {
-      bubbles: true,
-      composed: true,
-      detail: {
-        category: selectedCategory,
-        quiz: selectedQuiz
-      } 
-    }));
+    this.dispatchEvent(
+      new CustomEvent("select", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          category: selectedCategory,
+          quiz: selectedQuiz,
+        },
+      })
+    );
   }
 
   update() {
-    const quizList = this.hasAttribute('data-quiz-list')
-      ? JSON.parse(this.getAttribute('data-quiz-list'))
+    const quizList = this.hasAttribute("data-quiz-list")
+      ? JSON.parse(this.getAttribute("data-quiz-list"))
       : [];
 
-    const quizGroupByCategory = {}
-    quizList
-      .forEach(({name, category}) => {
-        quizGroupByCategory[category] ?
-          quizGroupByCategory[category].push(name) : quizGroupByCategory[category] = [name]
-      })
+    const quizGroupByCategory = {};
+    quizList.forEach(({ name, category }) => {
+      quizGroupByCategory[category]
+        ? quizGroupByCategory[category].push(name)
+        : (quizGroupByCategory[category] = [name]);
+    });
 
     return Object.entries(quizGroupByCategory)
       .map(([category, quizList]) => this.renderSection(category, quizList))
-      .join('');
+      .join("");
   }
 
   renderSection(category, quizList) {
-    const {
-      quiz: selectedQuiz,
-      category: selectedCategory,
-    } = JSON.parse(this.getAttribute('selected-quiz'));
+    const { quiz: selectedQuiz, category: selectedCategory } = JSON.parse(
+      this.getAttribute("selected-quiz")
+    );
 
     return `
       <section>
         <h3>${category}</h3>
         <ul>
-          ${quizList.map(name => {
-            const selected = name === selectedQuiz && category === selectedCategory
+          ${quizList
+            .map((name) => {
+              const selected =
+                name === selectedQuiz && category === selectedCategory;
 
-            return `<li><button ${selected && `class = "selected"`} data-category="${category}">${name}</button></li>`
-          }).join('')}
+              return `<li><button ${
+                selected && `class = "selected"`
+              } data-category="${category}">${name}</button></li>`;
+            })
+            .join("")}
         </ul>
       </section>
     `;
@@ -141,4 +151,4 @@ class GlueQuizList extends HTMLElement {
   }
 }
 
-customElements.define('glue-quiz-list', GlueQuizList);
+customElements.define("glue-quiz-list", GlueQuizList);

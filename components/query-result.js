@@ -1,50 +1,51 @@
 class GlueQueryResult extends HTMLElement {
-  static get observedAttributes() { return ['data-query-result'] }
+  static get observedAttributes() {
+    return ["data-query-result"];
+  }
 
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = this.getStyle();
 
-    const div = document.createElement('div');
-    div.innerHTML = '<p>click [RUN] to see query result</p>';
+    const div = document.createElement("div");
+    div.innerHTML = "<p>click [RUN] to see query result</p>";
 
     this.shadowRoot.append(style, div);
   }
 
-  connectedCallback() {
-  }
+  connectedCallback() {}
 
   attributeChangedCallback() {
-    if (this.hasAttribute('data-query-result')) {
-      const resultList = JSON.parse(this.getAttribute('data-query-result'));
+    if (this.hasAttribute("data-query-result")) {
+      const resultList = JSON.parse(this.getAttribute("data-query-result"));
 
-      const div = this.shadowRoot.querySelector('div');
+      const div = this.shadowRoot.querySelector("div");
       div.innerHTML = this.render(resultList);
     }
   }
 
   render(resultList) {
-    return resultList
-      .map(result => this.renderResult(result))
-      .join('');
+    return resultList.map((result) => this.renderResult(result)).join("");
   }
 
   renderResult(result) {
     switch (result.type) {
-      case 'SELECT': 
+      case "SELECT":
         return `
           <section>
             <code>
               <span class="success">[SUCCESS]</span> SELECT
             </code>
-            <glue-table-viewer data-rows='${JSON.stringify(result.rows)}'></glue-table-viewer>
+            <glue-table-viewer data-rows='${JSON.stringify(
+              result.rows
+            )}'></glue-table-viewer>
           </section>
         `;
-      case 'ERROR':
+      case "ERROR":
         return `
           <section>
             <code>
@@ -106,4 +107,4 @@ class GlueQueryResult extends HTMLElement {
   }
 }
 
-customElements.define('glue-query-result', GlueQueryResult);
+customElements.define("glue-query-result", GlueQueryResult);

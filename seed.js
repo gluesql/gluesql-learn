@@ -1,11 +1,11 @@
 const categories = [
-  'SAMPLE',
-  'SELECT',
-  'MATH',
-  'GROUP BY',
-  'IS NULL',
-  'String, Date',
-  'Function'
+  "SAMPLE",
+  "SELECT",
+  "MATH",
+  "GROUP BY",
+  "IS NULL",
+  "String, Date",
+  "Function",
 ];
 
 const seed = `
@@ -24,7 +24,7 @@ const seed = `
   INSERT INTO
     Category
   VALUES
-    ${categories.map(category => `("${category}")`).join(', ')};
+    ${categories.map((category) => `("${category}")`).join(", ")};
 `;
 
 export default seed;

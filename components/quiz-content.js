@@ -1,14 +1,16 @@
 class GlueQuizContent extends HTMLElement {
-  static get observedAttributes() { return ['data-content'] }
+  static get observedAttributes() {
+    return ["data-content"];
+  }
 
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = this.getStyle();
-    const section = document.createElement('section');
+    const section = document.createElement("section");
 
     this.shadowRoot.append(style, section);
   }
@@ -22,20 +24,17 @@ class GlueQuizContent extends HTMLElement {
   }
 
   update() {
-    const section = this.shadowRoot.querySelector('section');
+    const section = this.shadowRoot.querySelector("section");
 
-    if (!this.hasAttribute('data-content')) {
-      section.innerHTML = '';
+    if (!this.hasAttribute("data-content")) {
+      section.innerHTML = "";
 
       return;
-    };
+    }
 
-    const {
-      category,
-      name,
-      schemaSQL,
-      dataList,
-    } = JSON.parse(this.getAttribute('data-content'));
+    const { category, name, schemaSQL, dataList } = JSON.parse(
+      this.getAttribute("data-content")
+    );
 
     console.log(dataList);
 
@@ -51,7 +50,7 @@ class GlueQuizContent extends HTMLElement {
       <pre>${schemaSQL}</pre>
 
       <h3>Data</h3>
-      ${dataList.map(data => this.renderData(data)).join('')}
+      ${dataList.map((data) => this.renderData(data)).join("")}
     `;
   }
 
@@ -122,4 +121,4 @@ class GlueQuizContent extends HTMLElement {
   }
 }
 
-customElements.define('glue-quiz-content', GlueQuizContent);
+customElements.define("glue-quiz-content", GlueQuizContent);

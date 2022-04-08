@@ -1,53 +1,61 @@
 class GlueTableViewer extends HTMLElement {
-  static get observedAttributes() { return ['data-rows'] }
+  static get observedAttributes() {
+    return ["data-rows"];
+  }
 
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = this.getStyle();
 
-    const table = document.createElement('table')
+    const table = document.createElement("table");
 
     this.shadowRoot.append(style, table);
   }
 
-  connectedCallback() {
-  }
+  connectedCallback() {}
 
   attributeChangedCallback() {
-    const rows = JSON.parse(this.getAttribute('data-rows'));
+    const rows = JSON.parse(this.getAttribute("data-rows"));
 
-    if(rows.length === 0) {
+    if (rows.length === 0) {
       return;
     }
 
-    const headers = Object.keys(rows[0])
-    const body = Object.entries(rows).map(([, row]) => row)
+    const headers = Object.keys(rows[0]);
+    const body = Object.entries(rows).map(([, row]) => row);
 
-    const table = this.shadowRoot.querySelector('table')
+    const table = this.shadowRoot.querySelector("table");
     table.innerHTML = `
       ${this.renderTableHeader(headers)}
       ${this.renderTableBody(body, headers)}
-    `
+    `;
   }
 
   renderTableHeader(headers) {
     return `
       <thead>
         <tr>
-          ${headers.map(header => `<th>${header}</th>`).join('')}
+          ${headers.map((header) => `<th>${header}</th>`).join("")}
         </tr>
       </thead>
-    `
+    `;
   }
 
   renderTableBody(rows, headers) {
     return `
       <tbody>
-        ${rows.map(row => `<tr>${headers.map(header => `<td>${row[header]}</td>`).join('')}</tr>`).join('')}
+        ${rows
+          .map(
+            (row) =>
+              `<tr>${headers
+                .map((header) => `<td>${row[header]}</td>`)
+                .join("")}</tr>`
+          )
+          .join("")}
       </tbody>
     `;
   }
@@ -89,4 +97,4 @@ class GlueTableViewer extends HTMLElement {
   }
 }
 
-customElements.define('glue-table-viewer', GlueTableViewer);
+customElements.define("glue-table-viewer", GlueTableViewer);

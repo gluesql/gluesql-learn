@@ -1,5 +1,5 @@
-const name = 'Sample quiz';
-const category = 'SAMPLE';
+const name = "Sample quiz";
+const category = "SAMPLE";
 const schemaSQL = `
   CREATE TABLE Item (
     id INTEGER,

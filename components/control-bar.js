@@ -1,39 +1,41 @@
 class GlueControlBar extends HTMLElement {
-  static get observedAttributes() { return [] }
+  static get observedAttributes() {
+    return [];
+  }
 
   constructor() {
     super();
 
-    this.attachShadow({ mode: 'open' });
+    this.attachShadow({ mode: "open" });
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = this.getStyle();
 
-    const controls = document.createElement('div');
+    const controls = document.createElement("div");
     controls.innerHTML = this.render();
 
     this.shadowRoot.append(style, controls);
   }
 
   connectedCallback() {
-    const names = ['prev', 'next', 'solution', 'run', 'submit'];
+    const names = ["prev", "next", "solution", "run", "submit"];
 
     for (const name of names) {
-      this
-        .shadowRoot
+      this.shadowRoot
         .querySelector(`button.${name}`)
-        .addEventListener('click', this.dispatch.bind(this, name));
+        .addEventListener("click", this.dispatch.bind(this, name));
     }
   }
 
-  attributeChangedCallback() {
-  }
+  attributeChangedCallback() {}
 
   dispatch(eventName) {
-    this.dispatchEvent(new CustomEvent(eventName, {
-      bubbles: true,
-      composed: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent(eventName, {
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   render() {
@@ -99,4 +101,4 @@ class GlueControlBar extends HTMLElement {
   }
 }
 
-customElements.define('glue-control-bar', GlueControlBar);
+customElements.define("glue-control-bar", GlueControlBar);
