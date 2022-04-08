@@ -28,6 +28,7 @@ async function init() {
   initControlBar();
   initQuizList();
   initCodeEditor();
+  queryResult()
 }
 
 function initControlBar() {
@@ -56,6 +57,14 @@ async function initQuizList() {
 function initCodeEditor() {
   const codeEditor = document.querySelector('glue-code-editor.main');
   codeEditor.addEventListener('change', (event) => console.log(event));
+}
+
+async function queryResult() {
+  const dataRows = await db.query('SELECT * FROM Quiz')
+  .then(JSON.stringify)
+
+  const tableViewer = document.querySelector('glue-query-result');
+  tableViewer.setAttribute('data-query-result', dataRows)
 }
 
 init();

@@ -1,5 +1,5 @@
 class GlueTableViewer extends HTMLElement {
-  static get observedAttributes() { return [] }
+  static get observedAttributes() { return ['data-rows'] }
 
   constructor() {
     super();
@@ -10,17 +10,6 @@ class GlueTableViewer extends HTMLElement {
     style.textContent = this.getStyle();
 
     const table = document.createElement('table')
-    table.innerHTML = `
-      ${this.renderTableHeader([
-        'Name',
-        'Age',
-        'Temp'
-      ])}
-      ${this.renderTableBody([
-        ['1', '2', '3'],
-        ['4', '5', '6'],
-      ])}
-    `
 
     this.shadowRoot.append(style, table);
   }
@@ -29,6 +18,20 @@ class GlueTableViewer extends HTMLElement {
   }
 
   attributeChangedCallback() {
+    const rows = JSON.parse(this.getAttribute('data-rows'));
+
+    if(rows.length === 0) {
+      return;
+    }
+
+    const headers = Object.keys(rows[0])
+    const body = Object.entries(rows).map(([, row]) => row)
+
+    const table = this.shadowRoot.querySelector('table')
+    table.innerHTML = `
+      ${this.renderTableHeader(headers)}
+      ${this.renderTableBody(body, headers)}
+    `
   }
 
   renderTableHeader(headers) {
@@ -41,10 +44,10 @@ class GlueTableViewer extends HTMLElement {
     `
   }
 
-  renderTableBody(rows) {
+  renderTableBody(rows, headers) {
     return `
       <tbody>
-        ${rows.map(row => `<tr>${row.map(data => `<td>${data}</td>`).join('')}</tr>`).join('')}
+        ${rows.map(row => `<tr>${headers.map(header => `<td>${row[header]}</td>`).join('')}</tr>`).join('')}
       </tbody>
     `;
   }
