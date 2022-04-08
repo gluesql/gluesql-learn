@@ -20,14 +20,20 @@ class GlueCodeEditor extends HTMLElement {
       ["style", this.getEditorStyle()]
     ], shadow)
 
-    const sqlEditor = ace.edit(this.shadowRoot.querySelector('#sql-editor'), {
+    const sqlEditorElem = this.shadowRoot.querySelector('#sql-editor')
+    const sqlEditor = ace.edit(sqlEditorElem, {
       mode: "ace/mode/sql",
       value: "CREATE TABLE ITEM (id Integer)",
       autoScrollEditorIntoView: true,
     })
 
     sqlEditor.on('input', () => {
-      console.log(this)
+      const text = this.sqlEditor.getValue()
+      sqlEditorElem.dispatchEvent(new CustomEvent("change", {
+        bubbles: true, 
+        composed: true, 
+        detail: text,
+      }));
     })
 
     this.sqlEditor = sqlEditor
