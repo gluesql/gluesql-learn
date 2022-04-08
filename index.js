@@ -66,10 +66,15 @@ async function initQuizList() {
     .then(res => res[0].rows)
 
   const firstQuiz = dataQuizList[0]
-  selectQuiz(firstQuiz);
+  selectQuiz({
+    quiz: firstQuiz.name,
+    category: firstQuiz.category
+  });
 
   const quizList = document.querySelector('glue-quiz-list');
   quizList.setAttribute('data-quiz-list', JSON.stringify(dataQuizList));
+  quizList.setAttribute('selected-quiz', JSON.stringify(state));
+
   quizList.addEventListener('select', (event) => {
     selectQuiz(event.detail);
   });
@@ -91,9 +96,14 @@ async function queryResult() {
   tableViewer.setAttribute('data-query-result', dataRows)
 }
 
-async function selectQuiz({ name, category }) {
-  state.quiz = name;
-  state.category = category;
+async function selectQuiz(arg) {
+  state.quiz = arg.quiz;
+  state.category = arg.category;
+
+  document
+    .querySelector('glue-quiz-list')
+    .setAttribute('selected-quiz', JSON.stringify(arg));
+
   state.db = await gluesql();
 
   let quiz = await db.query(`
