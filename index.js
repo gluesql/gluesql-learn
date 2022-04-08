@@ -18,6 +18,11 @@ const sqls = [
   QUIZ_SAMPLE2,
 ];
 
+const state = {
+  category: '',
+  quiz: ''
+}
+
 let db;
 
 async function init() {
@@ -47,11 +52,18 @@ function initControlBar() {
 async function initQuizList() {
   const dataQuizList = await db.query('SELECT q.name, q.category FROM Quiz AS q INNER JOIN Category AS c ON q.category = c.name')
     .then(res => res[0].rows)
-    .then(JSON.stringify)
+
+  const firstQuiz = dataQuizList[0]
+  state.quiz = firstQuiz.name
+  state.category = firstQuiz.category
 
   const quizList = document.querySelector('glue-quiz-list');
-  quizList.setAttribute('data-quiz-list', dataQuizList);
-  quizList.addEventListener('select', (event) => console.log(event));
+  quizList.setAttribute('data-quiz-list', JSON.stringify(dataQuizList));
+  quizList.addEventListener('select', (event) => {
+    const { quiz, category } = event.detail
+    state.quiz = quiz
+    state.category = category
+  });
 }
 
 function initCodeEditor() {
