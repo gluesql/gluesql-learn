@@ -2,6 +2,7 @@ import './components/quiz-list.js';
 import './components/quiz-content.js';
 import './components/code-editor.js';
 import './components/table-viewer.js';
+import './components/query-result.js';
 import './components/control-bar.js';
 
 import SEED_SQL from './seed.js';

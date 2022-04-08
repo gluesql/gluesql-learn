@@ -31,7 +31,7 @@ body {
   display: grid;
   grid-template-areas:
     "quiz-list   quiz-content code-editor"
-    "quiz-list   quiz-content table-viewer"
+    "quiz-list   quiz-content query-result"
     "control-bar control-bar  control-bar";
   grid-template-columns:
     var(--quiz-list-width)
@@ -73,8 +73,8 @@ glue-code-editor {
   grid-area: code-editor;
 }
 
-glue-table-viewer {
-  grid-area: table-viewer;
+glue-query-result {
+  grid-area: query-result;
 }
 
 glue-control-bar {
@@ -86,7 +86,7 @@ glue-control-bar {
     <glue-quiz-list></glue-quiz-list>
     <glue-quiz-content></glue-quiz-content>
     <glue-code-editor></glue-code-editor>
-    <glue-table-viewer></glue-table-viewer>
+    <glue-query-result></glue-query-result>
     <glue-control-bar></glue-control-bar>
     <div id="box">
     </div>
