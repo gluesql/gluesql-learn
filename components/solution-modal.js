@@ -30,10 +30,12 @@ class GlueSolutionModal extends HTMLElement {
       return;
     }
 
+    const sql = this.getAttribute('data-sql')
+
     main.removeAttribute('class');
     main.innerHTML = `
       <div class="modal">
-        <glue-code-editor readonly></glue-code-editor>
+        <glue-code-editor readonly sql="${sql}"></glue-code-editor>
         <button>close</button>
       </div>
     `;

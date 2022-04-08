@@ -3,7 +3,7 @@ import 'https://pagecdn.io/lib/ace/1.4.14/ace.min.js'
 const CDN_URL = `https://pagecdn.io/lib/ace/1.4.14/`
 
 class GlueCodeEditor extends HTMLElement {
-  static get observedAttributes() { return ['readonly'] }
+  static get observedAttributes() { return ['sql', 'readonly'] }
 
   constructor() {
     super();
@@ -23,7 +23,6 @@ class GlueCodeEditor extends HTMLElement {
     const sqlEditorElem = this.shadowRoot.querySelector('#sql-editor')
     const sqlEditor = ace.edit(sqlEditorElem, {
       mode: "ace/mode/sql",
-      value: "CREATE TABLE ITEM (id Integer)",
       autoScrollEditorIntoView: true,
     })
 
@@ -44,6 +43,9 @@ class GlueCodeEditor extends HTMLElement {
   }
 
   attributeChangedCallback() {
+    const value = this.getAttribute('sql')
+    this.sqlEditor.setValue(value)
+
     if(this.hasAttribute('readonly')) {
       this.sqlEditor.setReadOnly(true)
     }
