@@ -10,6 +10,7 @@ class GlueQueryResult extends HTMLElement {
     style.textContent = this.getStyle();
 
     const div = document.createElement('div');
+    div.innerHTML = '<p>click [RUN] to see query result</p>';
 
     this.shadowRoot.append(style, div);
   }
@@ -18,7 +19,7 @@ class GlueQueryResult extends HTMLElement {
   }
 
   attributeChangedCallback() {
-    if(this.hasAttribute('data-query-result')) {
+    if (this.hasAttribute('data-query-result')) {
       const resultList = JSON.parse(this.getAttribute('data-query-result'));
 
       const div = this.shadowRoot.querySelector('div');
@@ -92,6 +93,14 @@ class GlueQueryResult extends HTMLElement {
       glue-table-viewer {
         display: block;
         width: 100%;
+      }
+
+      p {
+        color: #aaa;
+
+        margin-top: 30px;
+        width: 100%;
+        text-align: center;
       }
     `;
   }

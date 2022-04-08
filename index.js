@@ -34,7 +34,6 @@ async function init() {
   await initQuizList();
   initControlBar();
   initCodeEditor();
-  queryResult()
 }
 
 async function initControlBar() {
@@ -137,14 +136,6 @@ function initCodeEditor(sqlQuery = '') {
   codeEditor.addEventListener('change', (event) => {
     sql = event.detail;
   });
-}
-
-async function queryResult() {
-  const dataRows = await db.query('SELECT * FROM Quiz')
-  .then(JSON.stringify)
-
-  const tableViewer = document.querySelector('glue-query-result');
-  tableViewer.setAttribute('data-query-result', dataRows)
 }
 
 async function selectQuiz(arg) {
