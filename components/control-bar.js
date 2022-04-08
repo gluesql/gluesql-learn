@@ -16,21 +16,36 @@ class GlueControlBar extends HTMLElement {
   }
 
   connectedCallback() {
+    const names = ['prev', 'next', 'solution', 'run', 'submit'];
+
+    for (const name of names) {
+      this
+        .shadowRoot
+        .querySelector(`button.${name}`)
+        .addEventListener('click', this.dispatch.bind(this, name));
+    }
   }
 
   attributeChangedCallback() {
   }
 
+  dispatch(eventName) {
+    this.dispatchEvent(new CustomEvent(eventName, {
+      bubbles: true,
+      composed: true,
+    }));
+  }
+
   render() {
     return `
-      <button>Prev</button>
-      <button>Next</button>
+      <button class="prev">Prev</button>
+      <button class="next">Next</button>
 
       <span></span>
 
-      <button>Solution</button>
-      <button>Run</button>
-      <button>Submit</button>
+      <button class="solution">Solution</button>
+      <button class="run">Run</button>
+      <button class="submit">Submit</button>
     `;
   }
 
