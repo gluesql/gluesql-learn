@@ -1,10 +1,9 @@
 class GlueQuizList extends HTMLElement {
-  static get observedAttributes() { return ['data-quiz-list'] }
+  static get observedAttributes() { return ['data-quiz-list', 'selected-quiz'] }
 
   constructor() {
     super();
 
-    this.quizGroupByCategory = {}
     this.attachShadow({ mode: 'open' });
 
     const style = document.createElement('style');
@@ -12,6 +11,7 @@ class GlueQuizList extends HTMLElement {
 
     const aside = document.createElement('aside');
     aside.innerHTML = this.update();
+
     this.shadowRoot.append(style, aside);
   }
 
@@ -33,14 +33,15 @@ class GlueQuizList extends HTMLElement {
   }
 
   dispatch(event) {
-    const quiz = event.target.textContent
+    const selectedCategory = event.target.getAttribute('data-category') ?? ''
+    const selectedQuiz = event.target.textContent
 
     this.dispatchEvent(new CustomEvent('select', {
       bubbles: true,
       composed: true,
       detail: {
-        category: event.target.getAttribute('data-category') ?? '',
-        quiz
+        category: selectedCategory,
+        quiz: selectedQuiz
       } 
     }));
   }
@@ -50,23 +51,33 @@ class GlueQuizList extends HTMLElement {
       ? JSON.parse(this.getAttribute('data-quiz-list'))
       : [];
 
+    const quizGroupByCategory = {}
     quizList
       .forEach(({name, category}) => {
-        this.quizGroupByCategory[category] ?
-          this.quizGroupByCategory[category].push(name) : this.quizGroupByCategory[category] = [name]
+        quizGroupByCategory[category] ?
+          quizGroupByCategory[category].push(name) : quizGroupByCategory[category] = [name]
       })
 
-    return Object.entries(this.quizGroupByCategory)
+    return Object.entries(quizGroupByCategory)
       .map(([category, quizList]) => this.renderSection(category, quizList))
       .join('');
   }
 
   renderSection(category, quizList) {
+    const {
+      quiz: selectedQuiz,
+      category: selectedCategory,
+    } = JSON.parse(this.getAttribute('selected-quiz'));
+
     return `
       <section>
         <h3>${category}</h3>
         <ul>
-          ${quizList.map(name => `<li><button data-category="${category}">${name}</button></li>`).join('')}
+          ${quizList.map(name => {
+            const selected = name === selectedQuiz && category === selectedCategory
+
+            return `<li><button ${selected && `class = "selected"`} data-category="${category}">${name}</button></li>`
+          }).join('')}
         </ul>
       </section>
     `;
@@ -104,11 +115,19 @@ class GlueQuizList extends HTMLElement {
         border: none;
         box-shadow: none;
 
+        padding: 5px 10px;
         font-family: inherit;
         font-size: 16px;
         border-radius: 4px;
 
         cursor: pointer;
+      }
+
+      button.selected,
+      button.selected:hover,
+      button.selected:active {
+        color: white;
+        background-color: #343;
       }
 
       button:hover {
