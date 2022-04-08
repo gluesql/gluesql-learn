@@ -129,7 +129,7 @@ async function initQuizList() {
   });
 }
 
-function initCodeEditor(sqlQuery = "SELECT * FROM Item") {
+function initCodeEditor(sqlQuery = '') {
   const codeEditor = document
     .querySelector('glue-code-editor.main')
 
