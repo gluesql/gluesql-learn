@@ -25,9 +25,12 @@ class GlueControlBar extends HTMLElement {
       :host {
         display: inline-block;
 
-        width: 300px;
-        height: 300px;
         background-color: #caa14a;
+      }
+
+      h1 {
+        margin: 0;
+        padding: 0;
       }
     `;
   }

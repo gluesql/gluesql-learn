@@ -7,11 +7,36 @@
   </head>
 <style>
 body {
+  --quiz-list-width: 200px;
+  --quiz-content-width: calc((100vw - var(--quiz-list-width)) / 2);
+  --control-bar-height: 50px;
+  --code-editor-height: calc(50vh - var(--control-bar-height));
+
   padding: 0;
   margin: 0;
+
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #ddd;
+
+  display: grid;
+  grid-template-areas:
+    "quiz-list   quiz-content code-editor"
+    "quiz-list   quiz-content table-viewer"
+    "control-bar control-bar  control-bar";
+  grid-template-columns:
+    var(--quiz-list-width)
+    var(--quiz-content-width)
+    1fr;
+  grid-template-rows:
+    var(--code-editor-height)
+    1fr
+    var(--control-bar-height);
 }
 
 #box {
+  display: none;
   padding: 90px 20px 80px 20px;
   background-color: #222;
 
@@ -28,7 +53,27 @@ code {
   border-radius: 8px;
 }
 
+glue-quiz-list {
+  grid-area: quiz-list;
+}
+
+glue-quiz-content {
+  grid-area: quiz-content;
+}
+
+glue-code-editor {
+  grid-area: code-editor;
+}
+
+glue-table-viewer {
+  grid-area: table-viewer;
+}
+
+glue-control-bar {
+  grid-area: control-bar;
+}
 </style>
+
   <body>
     <glue-quiz-list></glue-quiz-list>
     <glue-quiz-content></glue-quiz-content>
