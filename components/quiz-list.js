@@ -61,16 +61,14 @@ class GlueQuizList extends HTMLElement {
 
         background-color: white;
 
-        --border-color: #ddd;
-
         overflow-x: hidden;
         overflow-y: auto;
+        border-right: 1px solid #ddd;
       }
 
       aside {
         width: 100%;
         padding: 10px;
-        border-right: 1px solid var(--border-color);
       }
 
       h3 {
