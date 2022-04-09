@@ -1,2 +1,5 @@
 # gluesql-learn
-WIP. Learn GlueSQL :)
+
+Learn GlueSQL :)
+
+![example](./example.png)
