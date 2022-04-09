@@ -1,4 +1,5 @@
 const categories = [
+  "Join",
   "SAMPLE",
   "SELECT",
   "MATH",
