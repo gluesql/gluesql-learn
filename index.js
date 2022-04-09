@@ -9,10 +9,11 @@ import "./components/solution-modal.js";
 import SEED_SQL from "./seed.js";
 import QUIZ_SAMPLE from "./quiz/sample.js";
 import QUIZ_SAMPLE2 from "./quiz/sample2.js";
+import WHERE_CLAUSE_OR from "./quiz/where-clause/or.js";
 
 import { gluesql } from "https://www.gluesql.org/bin/js/gluesql.js";
 
-const sqls = [SEED_SQL, QUIZ_SAMPLE, QUIZ_SAMPLE2];
+const sqls = [SEED_SQL, QUIZ_SAMPLE, QUIZ_SAMPLE2, WHERE_CLAUSE_OR];
 
 const state = {
   category: "",
