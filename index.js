@@ -13,7 +13,18 @@ import JOIN_BASIC from "./quiz/join/basic.js";
 
 import { gluesql } from "https://www.gluesql.org/bin/js/gluesql.js";
 
-const sqls = [SEED_SQL, QUIZ_SAMPLE, QUIZ_SAMPLE2, JOIN_BASIC];
+import SPEED_VIOLATION from "./quiz/highway-situation/speed-violation.js";
+import WHERE_CLAUSE_NOT_EQUAL from "./quiz/where-clause/not-equal.js";
+
+
+const sqls = [
+  SEED_SQL,
+  QUIZ_SAMPLE,
+  QUIZ_SAMPLE2,
+  SPEED_VIOLATION,
+  WHERE_CLAUSE_NOT_EQUAL,
+  JOIN_BASIC
+];
 
 const state = {
   category: "",
