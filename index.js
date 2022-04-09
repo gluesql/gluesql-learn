@@ -154,7 +154,8 @@ async function selectQuiz(arg) {
       category,
       name,
       schema_sql as schemaSQL,
-      data_sql as dataSQL
+      data_sql as dataSQL,
+      solution_sql as solutionSQL
     FROM
       Quiz
     WHERE
@@ -185,9 +186,15 @@ async function selectQuiz(arg) {
     dataList,
   };
 
-  document
-    .querySelector("glue-quiz-content")
-    .setAttribute("data-content", JSON.stringify(content));
+  const quizContent = document.querySelector("glue-quiz-content");
+  quizContent.setAttribute("data-content", JSON.stringify(content));
+
+  const expectedResult = await state.db
+    .query(quiz.solutionSQL)
+    .then((res) => res[0])
+    .then(({ rows }) => rows)
+    .then(JSON.stringify);
+  quizContent.setAttribute("expected-result", expectedResult);
 }
 
 init();

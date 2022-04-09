@@ -1,6 +1,6 @@
 class GlueQuizContent extends HTMLElement {
   static get observedAttributes() {
-    return ["data-content"];
+    return ["data-content", "expected-result"];
   }
 
   constructor() {
@@ -36,7 +36,7 @@ class GlueQuizContent extends HTMLElement {
       this.getAttribute("data-content")
     );
 
-    console.log(dataList);
+    const expectedResult = JSON.parse(this.getAttribute("expected-result"));
 
     section.innerHTML = `
       <p class="breadcrumb">
@@ -51,6 +51,9 @@ class GlueQuizContent extends HTMLElement {
 
       <h3>Data</h3>
       ${dataList.map((data) => this.renderData(data)).join("")}
+
+      <h3>Expected Result</h3>
+      ${this.renderExpectedResult(expectedResult)}
     `;
   }
 
@@ -59,6 +62,14 @@ class GlueQuizContent extends HTMLElement {
       <p>${name}</p>
       <glue-table-viewer data-rows='${JSON.stringify(rows)}'>
       </glue-table-viewer>
+    `;
+  }
+
+  renderExpectedResult(rows) {
+    return `
+      <glue-table-viewer data-rows='${JSON.stringify(
+        rows
+      )}'></glue-table-viewer>
     `;
   }
 
