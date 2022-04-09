@@ -1,5 +1,6 @@
 const categories = [
   "Where clause",
+  "Highway situation",
   "SAMPLE",
   "SELECT",
   "MATH",
