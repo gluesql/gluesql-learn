@@ -17,6 +17,7 @@ const sqls = [SEED_SQL, QUIZ_SAMPLE, QUIZ_SAMPLE2];
 const state = {
   category: "",
   quiz: "",
+  expected: "",
 };
 
 let db;
@@ -89,12 +90,11 @@ async function initControlBar() {
 
     try {
       const submitted = await state.db.query(sql);
-      const expected = await state.db.query(quiz.solutionSQL);
 
       console.log("submitted", submitted);
-      console.log("expected", expected);
+      console.log("expected", state.expected);
 
-      if (JSON.stringify(submitted) !== JSON.stringify(expected)) {
+      if (JSON.stringify(submitted) !== JSON.stringify(state.expected)) {
         window.alert("Wrong answer");
       } else {
         window.alert("Correct answer");
@@ -166,6 +166,7 @@ async function selectQuiz(arg) {
 
   await state.db.query(quiz.schemaSQL);
   await state.db.query(quiz.dataSQL);
+  state.expected = await state.db.query(quiz.solutionSQL);
 
   const { tables } = (await state.db.query("SHOW TABLES"))[0];
   const dataList = await Promise.all(
