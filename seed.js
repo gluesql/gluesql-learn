@@ -1,4 +1,5 @@
 const categories = [
+  "Highway situation",
   "SAMPLE",
   "SELECT",
   "MATH",
