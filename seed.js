@@ -1,4 +1,5 @@
 const categories = [
+  "Where clause",
   "SAMPLE",
   "SELECT",
   "MATH",
