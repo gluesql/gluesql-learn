@@ -7,24 +7,9 @@ import "./components/control-bar.js";
 import "./components/solution-modal.js";
 
 import SEED_SQL from "./seed.js";
-import QUIZ_SAMPLE from "./quiz/sample.js";
-import QUIZ_SAMPLE2 from "./quiz/sample2.js";
-import JOIN_BASIC from "./quiz/join/basic.js";
-import WHERE_CLAUSE_OR from "./quiz/where-clause/or.js";
-import WHERE_CLAUSE_NOT_EQUAL from "./quiz/where-clause/not-equal.js";
-import SPEED_VIOLATION from "./quiz/highway-situation/speed-violation.js";
+import sqls from "./quiz/index.js";
 
 import { gluesql } from "https://cdn.jsdelivr.net/npm/gluesql@0.11.0/gluesql.js";
-
-const sqls = [
-  SEED_SQL,
-  QUIZ_SAMPLE,
-  QUIZ_SAMPLE2,
-  SPEED_VIOLATION,
-  WHERE_CLAUSE_NOT_EQUAL,
-  WHERE_CLAUSE_OR,
-  JOIN_BASIC
-];
 
 const state = {
   category: "",
@@ -37,7 +22,7 @@ let sql;
 
 async function init() {
   db = await gluesql();
-  await db.query(sqls.join(""));
+  await db.query([SEED_SQL, ...sqls].join(""));
   window.globaldb = db;
 
   await initQuizList();
