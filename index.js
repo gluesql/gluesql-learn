@@ -14,7 +14,7 @@ import WHERE_CLAUSE_OR from "./quiz/where-clause/or.js";
 import WHERE_CLAUSE_NOT_EQUAL from "./quiz/where-clause/not-equal.js";
 import SPEED_VIOLATION from "./quiz/highway-situation/speed-violation.js";
 
-import { gluesql } from "https://www.gluesql.org/bin/js/gluesql.js";
+import { gluesql } from "https://cdn.jsdelivr.net/npm/gluesql@0.11.0/gluesql.js";
 
 const sqls = [
   SEED_SQL,
