@@ -7,6 +7,17 @@ import "./components/control-bar.js";
 import "./components/solution-modal.js";
 
 import SEED_SQL from "./seed.js";
+
+// Data types
+import INTEGER from "./quiz/data-types/integer.js";
+import FLOAT from "./quiz/data-types/float.js";
+import TEXT from "./quiz/data-types/text.js";
+import DATE from "./quiz/data-types/date.js";
+import TIME from "./quiz/data-types/time.js";
+import TIMESTAMP from "./quiz/data-types/timestamp.js";
+import MAP from "./quiz/data-types/map.js";
+import LIST from "./quiz/data-types/list.js";
+
 import QUIZ_SAMPLE from "./quiz/sample.js";
 import QUIZ_SAMPLE2 from "./quiz/sample2.js";
 import JOIN_BASIC from "./quiz/join/basic.js";
@@ -18,6 +29,14 @@ import { gluesql } from "https://cdn.jsdelivr.net/npm/gluesql@0.11.0/gluesql.js"
 
 const sqls = [
   SEED_SQL,
+  INTEGER,
+  FLOAT,
+  TEXT,
+  DATE,
+  TIME,
+  TIMESTAMP,
+  MAP,
+  LIST,
   QUIZ_SAMPLE,
   QUIZ_SAMPLE2,
   SPEED_VIOLATION,

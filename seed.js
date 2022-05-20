@@ -1,4 +1,6 @@
 const categories = [
+  "Data type",
+  "Functions",
   "Where clause",
   "Join",
   "Highway situation",
