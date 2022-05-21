@@ -49,7 +49,7 @@ class GlueCodeEditor extends HTMLElement {
   connectedCallback() {}
 
   attributeChangedCallback() {
-    const value = this.getAttribute("sql");
+    const value = atob(this.getAttribute("sql"));
     this.sqlEditor.setValue(value);
 
     if (this.hasAttribute("readonly")) {
