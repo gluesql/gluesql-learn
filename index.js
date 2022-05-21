@@ -42,7 +42,7 @@ async function initControlBar() {
 
     document
       .querySelector("glue-solution-modal")
-      .setAttribute("data-sql", quiz.solution_sql);
+      .setAttribute("data-sql", btoa(quiz.solution_sql));
   });
 
   controlBar.addEventListener("run", async () => {
