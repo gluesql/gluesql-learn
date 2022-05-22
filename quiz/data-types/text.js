@@ -1,3 +1,4 @@
+// TEXT QUESTION
 const name = "TEXT"
 const category = "Data type";
 const schemaSQL = `
