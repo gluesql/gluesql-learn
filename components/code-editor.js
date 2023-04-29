@@ -1,6 +1,6 @@
-import "https://pagecdn.io/lib/ace/1.4.14/ace.min.js";
+import "https://cdn.jsdelivr.net/npm/ace-builds@1.4.14/src/ace.min.js";
 
-const CDN_URL = `https://pagecdn.io/lib/ace/1.4.14/`;
+const CDN_URL = `https://cdn.jsdelivr.net/npm/ace-builds@1.4.14/src/`;
 
 class GlueCodeEditor extends HTMLElement {
   static get observedAttributes() {
